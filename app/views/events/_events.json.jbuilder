@@ -1,0 +1,1 @@
+json.(events, :event, :status, :sold)
