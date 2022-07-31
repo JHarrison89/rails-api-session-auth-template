@@ -2,9 +2,9 @@ class ApplicationController < ActionController::API
   include ActionController::Cookies
   include ActionController::RequestForgeryProtection
 
-  # this line is required - comment out to turn CSRF off for incoming requests
-  # when on, visit a GET rout first to collect a CSRF token
-  protect_from_forgery with: :exception
+  # protect_from_forgery with: :exception - comment out to turn CSRF off for incoming requests
+  # when protect_from_forgery with: :exception on, visit a GET rout first to collect a CSRF token
+  # protect_from_forgery with: :exception
 
   before_action :set_csrf_cookie
 

@@ -10,5 +10,4 @@ class EventsController < ApplicationController
     # JSON render example
       render json: {"event":"Moderat live", "status":"created successfully" }, status: :not_found
   end
-
 end

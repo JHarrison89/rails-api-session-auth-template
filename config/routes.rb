@@ -7,5 +7,8 @@ Rails.application.routes.draw do
     resources :users, only: [:create]
     resources :events, only: [:index, :create]
     resource :session, only: [:create, :destroy]
+
+    post 'password/forgot', to: 'password#forgot'
+    post 'password/reset', to: 'password#reset'
   end
 end
