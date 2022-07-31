@@ -1,0 +1,11 @@
+<h1>Hello, <%= @user.username %></h1>
+  <p>
+    To reset your password, click on the link below.<br>
+    The link is valid for 15 minutes.
+  </p>
+  <p>
+    <strong>Link: </strong><%= link_to "Reset password", password_reset_url(token: @token) %>.<br>
+    <strong>Token: </strong> <%= @token %><br>
+
+  </p>
+<p>Have a good day!</p>
