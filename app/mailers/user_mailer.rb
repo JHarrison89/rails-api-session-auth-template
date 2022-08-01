@@ -2,7 +2,7 @@ class UserMailer < ApplicationMailer
 
   def sign_up(user)
     @user = user
-    mail(to: 'jeremaia.harrison@gmail.com', subject: 'Welcome to My Awesome Site')
+    mail(to: 'jeremaia.harrison@gmail.com', subject: 'Welcome to My Awesome Site') 
   end
 
   def forgot_email(user)
@@ -11,3 +11,8 @@ class UserMailer < ApplicationMailer
     mail(to: 'jeremaia.harrison@gmail.com', subject: 'Password reset')
   end
 end
+
+# mail(to: user.email) do |format|
+#   format.text
+#   format.html
+# end
