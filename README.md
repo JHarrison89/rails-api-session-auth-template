@@ -1,24 +1,15 @@
-# README
+# rails-api-session-auth-template
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## The Basics 
 
-Things you may want to cover:
+## Middleware 
 
-* Ruby version
+## CORS
 
-* System dependencies
+## bcrypt
 
-* Configuration
+## How Session Authentication works 
 
-* Database creation
+## How CSRF protection works 
 
-* Database initialization
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
