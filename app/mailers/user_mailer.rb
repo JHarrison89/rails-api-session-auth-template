@@ -11,8 +11,3 @@ class UserMailer < ApplicationMailer
     mail(to: 'jeremaia.harrison@gmail.com', subject: 'Password reset')
   end
 end
-
-# mail(to: user.email) do |format|
-#   format.text
-#   format.html
-# end
