@@ -6,7 +6,7 @@ The app includes...
 - stateless session authorisation 
 - CSRF cookies 
 - REST endpoints for 
-- - sign-up 
+- - sign up 
 - - sign in 
 - - sign out 
 - - forgot password 
@@ -23,9 +23,8 @@ The app includes...
 - Postgres 
 
 ## Middleware 
-Unlike a standard Rails app, Rails API-only apps do not have cookie middleware enabled by default. 
-
-The following cookie middleware settings have been added to `config/application.rb`
+Unlike a standard Rails app, Rails API-only apps don't have cookie middleware enabled by default. <br>
+The following settings have been added to `config/application.rb`
 
 ```
 config.middleware.use ActionDispatch::Cookies
@@ -44,7 +43,7 @@ and called by adding the following to `app/controllers/application_controller.rb
 CORS allows web applications to make cross-domain AJAX calls.<br> 
 I.e. separately hosted frontend and backend applications are "allowed" to communicate. 
 
-`config/initializers/cors.rb`
+`config/initializers/cors.rb`<br>
 Note: `forgery_protection_origin_check = false` is set to false
 
 https://github.com/cyu/rack-cors
@@ -58,13 +57,14 @@ Used to hash and store passwords securely.<br> https://medium.com/@tpstar/passwo
 ## How Session Authentication works 
 When a user signs up or signs in, the backend creates a session containing the user_id and returns it to the frontend as a cookie. <br>
 The frontend sends the session cookie with every subsequent request; the backend then opens the session cookie and checks for a user_id; if one is present, it means the user is signed in. <br>
+
 When the user signs out, the user_id is deleted from the session cookie. 
 
-The `authenticate_user` method in app/controllers/application_controller.rb protects resources by checking if current_user is set. 
+The `authenticate_user` method in `app/controllers/application_controller.rb` protects resources by checking if current_user is set. <br>
 The authenticate method in `app/models/user.rb` checks user credentials when signing in.
 
-`app/controllers/users_controller.rb`
-`app/controllers/sessions_controller.rb`
+`app/controllers/users_controller.rb` <br>
+`app/controllers/sessions_controller.rb`<br>
 `app/models/user.rb`
 
 ### Is it dangerous to store the user_id in the session cookie? 
@@ -77,15 +77,13 @@ Stateless means no session information, such as the session_id, is stored or ref
 Stateful means session information is stored and referenced by the backend in a DB table or Cache. 
 
 ## How CSRF protection works 
-CSRF protection works by placing a CSRF token in the user's browser, which is sent and checked with all subsequent requests.<br> 
+CSRF protection works by placing a CSRF token in the user's browser, which is sent to the backend and checked with all subsequent requests.
 Resources cannot be accessed without a CSRF token except for GET resources which are not protected. 
 
-In this app, use the events/index GET resource to collect a token. 
-
-CSRF protection can be disabled by commenting out `protect_from_forgery with: :exception` <br>
+CSRF protection can be enabled/disabled by commenting out `protect_from_forgery with: :exception` <br>
 in `app/controllers/application_controller.rb`
 
-protect_from_forgery with: :exception - comment out to turn CSRF off for incoming requests # when protect_from_forgery with: :exception on, visit a GET rout first to collect a CSRF token protect_from_forgery with: :exception
+When CSRF is enabled, use the events/index GET resource to collect a token. 
 
 https://medium.com/rubyinside/a-deep-dive-into-csrf-protection-in-rails-19fa0a42c0ef#:~:text=Briefly%2C%20Cross%2DSite%20Request%20Forgery,their%20authenticity%20with%20each%20submission
 
