@@ -139,11 +139,13 @@ The session route is singular but the controller is plural
 
 **needs more research
 
+https://www.rubyinrails.com/2019/04/16/rails-routes-difference-between-resource-and-resources/
+
+**needs more research
+
 ### Params Wrapper
 https://medium.com/ruby-daily/params-wrapper-in-ruby-on-rails-30e7921f7704
 
-### Rails routes - why is session singular ?
-https://www.rubyinrails.com/2019/04/16/rails-routes-difference-between-resource-and-resources/
 
  ### HTTP request 
 Session and event objects get their name from the controller the HTTP body is sent to.
