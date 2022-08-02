@@ -90,14 +90,18 @@ https://medium.com/rubyinside/a-deep-dive-into-csrf-protection-in-rails-19fa0a42
 https://marcgg.com/blog/2016/08/22/csrf-rails/
 
 ## How password reset & works 
-The password resource is used to reset passwords via two custom methods, forgot_password and reset_password.<br>
-The forgot action checks the user and calls the UserMailer.forgot_email method, which generates a token and sends it to the user's email.<br>
+The password resource is used to reset passwords.<br>
+The forgot action checks the user and calls `UserMailer.forgot_email`, which generates a token and sends it to the user's email.<br>
 The token is then passed back to the reset action and used to validate the request. 
 
 Call the forgot password endpoint to test the password reset function and copy the token from the reset password email.<br>
-Set up a request to reset the password endpoint and add the token as a param so it is passed to the backend and can be validated.
+Sebd a request to reset the password endpoint and add the token as a param so it can be validated by the backend.
 
-user.signed_id(expires_in 15.minutes, purpose: “password_reset”)
+The `signed_id` method is built into Rails and is used to generate tokens associated with users. <br>
+The `signed_id` method is used in the `UserMailer` class. 
+See the GoRails youtube links below for more info. <br>
+
+`user.signed_id(expires_in 15.minutes, purpose: “password_reset”)`
 
 https://medium.com/binar-academy/forgot-password-feature-on-rails-api-8e4a7368c59
 
