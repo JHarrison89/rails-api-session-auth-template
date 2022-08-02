@@ -1,4 +1,4 @@
-# rails API session auth template
+# Rails API session auth template
 This Rails 7 API-only app is intended as a template to kick-start projects.
 
 The app includes...
