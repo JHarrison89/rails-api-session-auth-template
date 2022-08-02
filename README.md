@@ -17,7 +17,7 @@ The app includes...
 - - sends a password reset email
 
 
-## The Basics 
+## Setup
 - Ruby 3.0.0
 - Rails 7.0.3.1
 - Postgres 
@@ -46,7 +46,7 @@ I.e. separately hosted frontend and backend applications are "allowed" to commun
 `config/initializers/cors.rb`<br>
 Note: `forgery_protection_origin_check = false` is set to false
 
-https://github.com/cyu/rack-cors
+https://github.com/cyu/rack-cors <br>
 https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy
 
 
