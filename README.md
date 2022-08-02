@@ -95,7 +95,7 @@ The forgot action checks the user and calls `UserMailer.forgot_email`, which gen
 The token is then passed back to the reset action and used to validate the request. 
 
 Call the forgot password endpoint to test the password reset function and copy the token from the reset password email.<br>
-Sebd a request to reset the password endpoint and add the token as a param so it can be validated by the backend.
+Send a request to reset the password endpoint and add the token as a param so it can be validated by the backend and your new email and password as a JSON body.
 
 The `signed_id` method is built into Rails and is used to generate tokens associated with users. <br>
 The `signed_id` method is used in the `UserMailer` class. 
@@ -126,7 +126,18 @@ config/environments/development.rb
 
 
 ## Routing 
-singular resources 
+All routes are wrapped with `format: :json`
+This means the controller can only respond with JSON.
+
+**needs more research
+
+https://www.justinweiss.com/articles/respond-to-without-all-the-pain/
+
+### singular resources 
+The password route and controller is singular 
+The session route is singular but the controller is plural
+
+**needs more research
 
 ### Params Wrapper
 https://medium.com/ruby-daily/params-wrapper-in-ruby-on-rails-30e7921f7704
