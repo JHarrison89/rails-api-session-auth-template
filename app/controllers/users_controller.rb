@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class UsersController < ApplicationController
   # has_secure_password doesn't wrap password
-  wrap_parameters :user, include: [:username, :email, :password]
+  wrap_parameters :user, include: %i[username email password]
 
   def create
     @user = User.new(user_params)
@@ -14,7 +16,7 @@ class UsersController < ApplicationController
     end
   end
 
-private
+  private
 
   def user_params
     params.require(:user).permit(:username, :email, :password)

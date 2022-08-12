@@ -1,4 +1,6 @@
-require "active_support/core_ext/integer/time"
+# frozen_string_literal: true
+
+require 'active_support/core_ext/integer/time'
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
@@ -19,10 +21,10 @@ Rails.application.configure do
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
-  if Rails.root.join("tmp/caching-dev.txt").exist?
+  if Rails.root.join('tmp/caching-dev.txt').exist?
     config.cache_store = :memory_store
     config.public_file_server.headers = {
-      "Cache-Control" => "public, max-age=#{2.days.to_i}"
+      'Cache-Control' => "public, max-age=#{2.days.to_i}"
     }
   else
     config.action_controller.perform_caching = false
@@ -38,21 +40,21 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
-  # I added the below settings 
+  # I added the below settings
 
   config.action_mailer.delivery_method = :smtp
 
-  config.action_mailer.default_url_options = { 
-    :host => 'localhost:3000', 
-    :protocol => 'http'
+  config.action_mailer.default_url_options = {
+    host: 'localhost:3000',
+    protocol: 'http'
   }
   config.action_mailer.smtp_settings = {
-    :address => 'smtp.gmail.com',
-    :port => 587,
-    :user_name => 'myrailsmail@gmail.com',
-    :password => 'elyhzsrrjpvnifvz',
-    :authentication => 'plain',
-    :enable_starttls_auto => true
+    address: 'smtp.gmail.com',
+    port: 587,
+    user_name: 'myrailsmail@gmail.com',
+    password: 'elyhzsrrjpvnifvz',
+    authentication: 'plain',
+    enable_starttls_auto: true
   }
 
   # Print deprecation notices to the Rails logger.
@@ -69,7 +71,6 @@ Rails.application.configure do
 
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
-
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true

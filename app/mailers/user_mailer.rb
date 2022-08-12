@@ -1,8 +1,9 @@
-class UserMailer < ApplicationMailer
+# frozen_string_literal: true
 
+class UserMailer < ApplicationMailer
   def sign_up(user)
     @user = user
-    mail(to: 'jeremaia.harrison@gmail.com', subject: 'Welcome to My Awesome Site') 
+    mail(to: 'jeremaia.harrison@gmail.com', subject: 'Welcome to My Awesome Site')
   end
 
   def forgot_email(user)
