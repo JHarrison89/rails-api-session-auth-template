@@ -16,7 +16,7 @@ class User < ApplicationRecord
   end
 
   def reset_password!(password)
-    password = password
+    @password = password #instance variable is accessable by password_requirements_are_met
     save!
   end
 
@@ -29,7 +29,7 @@ class User < ApplicationRecord
     }
 
     rules.each do |message, regex|
-      errors.add(:password, message) unless password.match(regex)
+      errors.add(:password, message) unless @password.match(regex)
     end
   end
 end

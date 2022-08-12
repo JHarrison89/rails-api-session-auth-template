@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class EventsController < ApplicationController
-  before_action :authenticate_user, only: [:create]
+  before_action :authenticate_user, only: [:show_example]
 
   def index
     # Jbuilder render example
@@ -11,7 +11,7 @@ class EventsController < ApplicationController
     ]
   end
 
-  def show
+  def show_example # dummy show action (no event records in db)
     # JSON render example
     render json: { "event": 'Moderat live', "status": 'created successfully' }, status: :not_found
   end

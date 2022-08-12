@@ -7,7 +7,10 @@ Rails.application.routes.draw do
   # root "articles#index"
   defaults format: :json do
     resources :users, only: [:create]
-    resources :events, only: %i[index create]
+
+    resources :events, only: %i[index]
+    get 'event', to: 'events#show_example' # dummy show action (no event records in db)
+
     resource :session, only: %i[create destroy]
 
     post 'password/forgot', to: 'password#forgot'
