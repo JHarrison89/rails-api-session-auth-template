@@ -107,13 +107,9 @@ https://medium.com/binar-academy/forgot-password-feature-on-rails-api-8e4a7368c5
 
 https://pascales.medium.com/welcome-email-for-new-user-using-action-mailer-becdb43ee6a
 
-https://medium.com/binar-academy/forgot-password-feature-on-rails-api-8e4a7368c59
-
 https://www.youtube.com/watch?v=JMXGExhr0C4&ab_channel=GoRails
 
 https://www.youtube.com/watch?v=kTB5z4NcrhM&ab_channel=GoRails
-
-https://medium.com/binar-academy/forgot-password-feature-on-rails-api-8e4a7368c59
 
 
 ## Sending emails
