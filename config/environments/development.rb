@@ -52,7 +52,7 @@ Rails.application.configure do
     address: 'smtp.gmail.com',
     port: 587,
     user_name: 'myrailsmail@gmail.com',
-    password: 'elyhzsrrjpvnifvz',
+    password: ENV['GOOGLE_APP_PASSWORD'],
     authentication: 'plain',
     enable_starttls_auto: true
   }
