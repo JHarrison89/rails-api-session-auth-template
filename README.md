@@ -149,4 +149,11 @@ Parameters: {"username"=>"orange", "*event*"=>{"username"=>"orange"}}
 Parameters {"username"=>"orange", "format"=>:json, "controller"=>"sessions", "action"=>"create", "*session*"=>{"username"=>"orange"}} permitted: false>
 ```
 
+ ### .ENV
+Using dotenv gem
+Note: .env file must be located in the root directory
+https://github.com/bkeepers/dotenv
+https://www.youtube.com/watch?v=Re0OYhw0GUY&ab_channel=ArachneTutorials
+
+
 
