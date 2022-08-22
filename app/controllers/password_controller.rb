@@ -17,7 +17,6 @@ class PasswordController < ApplicationController
 
   def reset
     token = params[:token].to_s
-binding.pry
     return render json: { error: 'Email not present' } if params[:email].blank?
 
     user = User.find_signed(token)
