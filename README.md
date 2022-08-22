@@ -150,9 +150,9 @@ Parameters {"username"=>"orange", "format"=>:json, "controller"=>"sessions", "ac
 ```
 
  ### .ENV
-Using dotenv gem
-Note: .env file must be located in the root directory
-https://github.com/bkeepers/dotenv
+Using dotenv gem <br>
+Note: .env file must be located in the root directory <br>
+https://github.com/bkeepers/dotenv <br>
 https://www.youtube.com/watch?v=Re0OYhw0GUY&ab_channel=ArachneTutorials
 
 
