@@ -66,23 +66,16 @@ Tutorial: Setting up bycrypt [medium](https://medium.com/@tpstar/password-digest
 When a user signs up or signs in, the backend creates a session containing the user_id and passes it to the client (users browser) as a cookie. 
 The client then sends the session cookie to the backend with every subsequent requet. <br>
 
-The backend then opens the session cookie and checks for a user_id; if one is present, it means the user is signed in. <br>
+The backend then opens the session cookie and checks for a user_id; if one is present, it means the user is signed in. 
+When the user signs out, the user_id is deleted from the session cookie. 
 
-When the user signs out, the user_id is deleted from the session cookie. <br>
 
-#### Create session on signs up <br>
-- `app/controllers/users_controller.rb`
-
-#### Create session on sign in & destroy session on sign out <br> 
-- `app/controllers/sessions_controller.rb`
-
-#### Authenticate user on sign in <br> 
-- `app/models/user.rb`
-
-#### Protect resources 
-- checking if current_user is set using the `authenticate_user` method
-- `app/controllers/application_controller.rb`
-
+| Action  | File |
+| ------------- | ------------- |
+| Create session on signs up  | app/controllers/users_controller.rb  |
+| Create/destory session on sign in/sign out  | app/controllers/sessions_controller.rb  |
+| Authenticate user on sign in  | app/models/user.rb  |
+| Protect resources using current_user | app/controllers/application_controller.rb  |
 
 
 ### How are session cookies secured? 
@@ -111,10 +104,11 @@ When CSRF is enabled, use the events/index GET resource to collect a token.
 #### Enable/disable CSRF protection
 - Comment out `protect_from_forgery with: :exception` in `app/controllers/application_controller.rb` to disable CSRF protection
 
+A Deep Dive into CSRF Protection in Rails [medium](https://medium.com/rubyinside/a-deep-dive-into-csrf-protection-in-rails-19fa0a42c0ef#:~:text=Briefly%2C%20Cross%2DSite%20Request%20Forgery,their%20authenticity%20with%20each%20submission)
 
-https://medium.com/rubyinside/a-deep-dive-into-csrf-protection-in-rails-19fa0a42c0ef#:~:text=Briefly%2C%20Cross%2DSite%20Request%20Forgery,their%20authenticity%20with%20each%20submission
+Understanding Rails' Forgery Protection Strategies [blog](https://marcgg.com/blog/2016/08/22/csrf-rails/)
 
-https://marcgg.com/blog/2016/08/22/csrf-rails/
+
 
 ## How password reset & works 
 The password resource is used to reset passwords.<br>
