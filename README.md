@@ -1,10 +1,17 @@
+
+<p align="center">
+  <a href="https://rubyonrails.org/"><img width="300" src="https://zakaria.dev/assets/images/rails_base_app/Ruby_On_Rails_Logo.png" alt="Ruby On Rails"></a>
+
 # Rails API session auth template
 This Rails 7 API-only app is intended as a template to kick-start projects.
+
+[![](https://badgen.net/badge/Rails/7.0.3.1/red)](https://github.com/JHarrison89/rails-api-session-auth-template/blob/main/Gemfile.lock)
+[![](https://badgen.net/badge/Ruby/3.0.0/orange)](https://github.com/JHarrison89/rails-api-session-auth-template/blob/main/Gemfile.lock)
 
 The app includes...
 
 - stateless session authorisation 
-- CSRF cookies 
+- CSRF protection
 - REST endpoints for 
 - - sign up 
 - - sign in 
