@@ -125,9 +125,13 @@ config/environments/development.rb
 ### Namespacing the API routes <br>
 I decided not to namespace the API routes because all routes are APIs, so we dont need to diferenciate, and this template has no need version the APIs at this stage. 
 
+## Route formatting
+routes are wrapped with `format: :json` <br>
+This means the router expects all incoming requiests to be for JSON resources and we dont need to spesify the format type in our URL requests. <br>
+I.E we use `http://[::1]:3000/events` not `http://[::1]:3000/events.json`
 
-All routes are wrapped with `format: :json`
-This means the controller can only respond with JSON.
+Note: If we wanted to use other formats like XML, we would need to move this logic to the ActionController and creating a before action to check the format of incoming requests
+
 
 **needs more research
 
