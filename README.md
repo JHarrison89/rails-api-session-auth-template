@@ -82,7 +82,7 @@ When the user signs out, the user_id is deleted from the session cookie.
 When Rails creates a session cookie it encrypts it using its secret_key_base <br>
 Data is data is inaccessible without first decrypting the cookie.  
 
-Documentation link [secret key base](https://apidock.com/rails/Rails/Application/secret_key_base).
+Documentation link [secret key base](https://apidock.com/rails/Rails/Application/secret_key_base)
 
 
 
@@ -124,18 +124,22 @@ See the GoRails youtube links below for more info. <br>
 
 `user.signed_id(expires_in 15.minutes, purpose: “password_reset”)`
 
-https://medium.com/binar-academy/forgot-password-feature-on-rails-api-8e4a7368c59
+Creating “Forgot password” feature on Rails API [medium](https://medium.com/binar-academy/forgot-password-feature-on-rails-api-8e4a7368c59)
 
-https://pascales.medium.com/welcome-email-for-new-user-using-action-mailer-becdb43ee6a
+“Welcome email” for new user using Action Mailer [medium](https://pascales.medium.com/welcome-email-for-new-user-using-action-mailer-becdb43ee6a)
 
-https://www.youtube.com/watch?v=JMXGExhr0C4&ab_channel=GoRails
+Rails for Beginners Part 21: Reset Password Token Mailer [GoRails](https://www.youtube.com/watch?v=JMXGExhr0C4&ab_channel=GoRails)
 
-https://www.youtube.com/watch?v=kTB5z4NcrhM&ab_channel=GoRails
+Rails for Beginners Part 22: Password Reset Update [GoRails](https://www.youtube.com/watch?v=kTB5z4NcrhM&ab_channel=GoRails)
+
+
 
 
 ## Sending emails
 ActionMailer is used to send emails when a user signs up or resets their password. <br>
-https://medium.com/nerd-for-tech/implementing-action-mailer-ruby-on-rails-1766f59c6f
+
+
+Implementing Action Mailer [medium](https://medium.com/nerd-for-tech/implementing-action-mailer-ruby-on-rails-1766f59c6f)
 
 Give third party apps access...
 Custom settings 
@@ -153,10 +157,8 @@ I.E we use `http://[::1]:3000/events` not `http://[::1]:3000/events.json`
 
 Note: If we wanted to use other formats like XML, we would need to move this logic to the ActionController and creating a before action to check the format of incoming requests
 
+Respond_to Without All the Pain [justinweiss](https://www.justinweiss.com/articles/respond-to-without-all-the-pain/)
 
-**needs more research
-
-https://www.justinweiss.com/articles/respond-to-without-all-the-pain/
 
 ### singular resources 
 The password route and controller is singular 
@@ -178,11 +180,13 @@ Parameters: {"username"=>"orange", "*event*"=>{"username"=>"orange"}}
 Parameters {"username"=>"orange", "format"=>:json, "controller"=>"sessions", "action"=>"create", "*session*"=>{"username"=>"orange"}} permitted: false>
 ```
 
- ### .ENV
+ ### ENV File
 Using dotenv gem <br>
 Note: .env file must be located in the root directory <br>
-https://github.com/bkeepers/dotenv <br>
-https://www.youtube.com/watch?v=Re0OYhw0GUY&ab_channel=ArachneTutorials
+
+Gem documentation [Dotenv](https://github.com/bkeepers/dotenv)
+
+Setting up .env files [using Dotenv-Rails gem](https://www.youtube.com/watch?v=Re0OYhw0GUY&ab_channel=ArachneTutorials)
 
 
 
