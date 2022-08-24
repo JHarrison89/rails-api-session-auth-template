@@ -208,10 +208,9 @@ I decided not to namespace the API routes because all routes are APIs, so we don
 
 ### Route formatting
 routes are wrapped with `format: :json` <br>
-This means the router expects all incoming requiests to be for JSON resources and we dont need to spesify the format type in our URL requests. <br>
-I.E we use `http://[::1]:3000/events` not `http://[::1]:3000/events.json`
+This means the router expects all incoming requiests to be for JSON resources and we dont need to spesify the format type in our URL requests. I.E `http://[::1]:3000/events` not `http://[::1]:3000/events.json`
 
-Note: If we wanted to use other formats like XML, we would need to move this logic to the ActionController and creating a before action to check the format of incoming requests
+Note: If we wanted to use other formats like XML, we would need to move this logic to the ActionController and create a before action to check the format of incoming requests
 
 Respond_to Without All the Pain [justinweiss](https://www.justinweiss.com/articles/respond-to-without-all-the-pain/)
 
