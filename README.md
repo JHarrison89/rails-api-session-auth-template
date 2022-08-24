@@ -30,8 +30,9 @@ The app includes...
 - Postgres 
 
 ## Middleware 
-Unlike a standard Rails app, Rails API-only apps don't have cookie middleware enabled by default. <br>
-The following settings have been added to `config/application.rb`
+
+Session management middleware is excluded from API apps by default and must be included to make use of sessions and cookies for authorisation.
+The following settings have been added to  `config/application.rb`
 
 ```
 config.middleware.use ActionDispatch::Cookies
@@ -45,9 +46,11 @@ and called by adding the following to `app/controllers/application_controller.rb
   include ActionController::RequestForgeryProtection
 ```
 
+Documentation link [rubyonrails.org](https://guides.rubyonrails.org/api_app.html#using-session-middlewares)
+
 
 ## CORS
-CORS allows web applications to make cross-domain AJAX calls.<br> 
+Allows web applications to make cross-domain AJAX calls.<br> 
 I.e. separately hosted frontend and backend applications are "allowed" to communicate. 
 
 This project uses the Rack CORS gem which creates the `config/initializers/cors.rb` file .
@@ -69,11 +72,14 @@ Gem documentation [bcrypt-ruby](https://github.com/bcrypt-ruby/bcrypt-ruby)
 Tutorial: Setting up bycrypt [medium](https://medium.com/@tpstar/password-digest-column-in-user-migration-table-871ff9120a5)
 
 
-## How Session Authentication works 
+## Session Authentication 
+
+### How it works
+
 When a user signs up or signs in, the backend creates a session containing the user_id and passes it to the client (users browser) as a cookie. 
 The client then sends the session cookie to the backend with every subsequent requet. <br>
 
-The backend then opens the session cookie and checks for a user_id; if one is present, it means the user is signed in. 
+The backend opens the session cookie and checks for a user_id; if present, the user is signed in. <br>
 When the user signs out, the user_id is deleted from the session cookie. 
 
 
@@ -87,19 +93,29 @@ When the user signs out, the user_id is deleted from the session cookie.
 
 ### How are session cookies secured? 
 When Rails creates a session cookie it encrypts it using its secret_key_base <br>
-Data is data is inaccessible without first decrypting the cookie.  
+The data held is inaccessible without first decrypting the cookie. 
 
-Documentation link [secret key base](https://apidock.com/rails/Rails/Application/secret_key_base)
+>The cookie data is cryptographically signed to make it tamper-proof. And it is also encrypted so anyone with access to it can't read its contents. (Rails will not accept it if it has been edited).
+
+ 
+Rails documentation [sessions](https://guides.rubyonrails.org/action_controller_overview.html#session)
+
+Rails documentation [secret key base](https://apidock.com/rails/Rails/Application/secret_key_base)
 
 
 
 
-### What does stateless mean? 
-Authorisation methods can be stateless or stateful.<br>
-- Stateless: no session information, such as the session_id, is stored or referenced by the backend
-- Stateful: session information is stored and referenced by the backend in a DB table or Cache
+### State
+This implementation of session authentication is stateless
 
-## How CSRF protection works 
+An authorisation method is stateless when unique session information, such as a user_id, is stored in a cookie or token and sent with every HTTP request. The backend checks the user_id is valid before returning a 200 OK response and no additional calls are required. 
+
+An authorisation method is stateful when it stores unique information about the session in the backend using a DB table or Cache. This can include the user id, session id, user permissions, ip address, devise type, time of last request etc. The backend must fetch the session data for every request before returning a 200 OK response.
+
+
+## CSRF protection
+
+### How it works
 CSRF protection works by placing a CSRF token in the client (users browser).  <br> 
 The client sends the token to the backend with every subsequent requet. <br>
 The backend checks the token is valid before a request is processed. <br>
@@ -108,7 +124,7 @@ Resources cannot be accessed without a CSRF token except for GET resources which
 
 When CSRF is enabled, use the events/index GET resource to collect a token. 
 
-#### Enable/disable CSRF protection
+### Enable/disable CSRF protection
 - Comment out `protect_from_forgery with: :exception` in `app/controllers/application_controller.rb` to disable CSRF protection
 
 A Deep Dive into CSRF Protection in Rails [medium](https://medium.com/rubyinside/a-deep-dive-into-csrf-protection-in-rails-19fa0a42c0ef#:~:text=Briefly%2C%20Cross%2DSite%20Request%20Forgery,their%20authenticity%20with%20each%20submission)
@@ -117,14 +133,18 @@ Understanding Rails' Forgery Protection Strategies [blog](https://marcgg.com/blo
 
 
 
-## How password reset & works 
+## Password reset
+
+### How it works 
 The password resource is used to reset passwords.<br>
+
 The forgot action checks the user and calls `UserMailer.forgot_email`, which generates a token and sends it to the user's email.<br>
 The token is then passed back to the reset action and used to validate the request. 
 
-Call the forgot password endpoint to test the password reset function and copy the token from the reset password email.<br>
-Send a request to reset the password endpoint and add the token as a param so it can be validated by the backend and your new email and password as a JSON body.
+To test the password reset function, call the forgot password endpoint and copy the token from the reset password email/response.<br>
+Send a request to the reset password endpoint and add the token as a param and your email and new password in the JSON body.
 
+### Generating tokens
 The `signed_id` method is built into Rails and is used to generate tokens associated with users. <br>
 The `signed_id` method is used in the `UserMailer` class. 
 See the GoRails youtube links below for more info. <br>
