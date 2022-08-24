@@ -82,27 +82,17 @@ The client then sends the session cookie to the backend with every subsequent re
 The backend opens the session cookie and checks for a user_id; if present, the user is signed in. <br>
 When the user signs out, the user_id is deleted from the session cookie. 
 
-
-| Action  | File |
-| ------------- | ------------- |
-| Create session on signs up  | app/controllers/users_controller.rb  |
-| Create/destory session on sign in/sign out  | app/controllers/sessions_controller.rb  |
-| Authenticate user on sign in  | app/models/user.rb  |
-| Protect resources using current_user | app/controllers/application_controller.rb  |
-
-
+  
 ### How are session cookies secured? 
 When Rails creates a session cookie it encrypts it using its secret_key_base <br>
 The data held is inaccessible without first decrypting the cookie. 
 
 >The cookie data is cryptographically signed to make it tamper-proof. And it is also encrypted so anyone with access to it can't read its contents. (Rails will not accept it if it has been edited).
 
- 
+
 Rails documentation [sessions](https://guides.rubyonrails.org/action_controller_overview.html#session)
 
 Rails documentation [secret key base](https://apidock.com/rails/Rails/Application/secret_key_base)
-
-
 
 
 ### State
@@ -111,6 +101,16 @@ This implementation of session authentication is stateless
 An authorisation method is stateless when unique session information, such as a user_id, is stored in a cookie or token and sent with every HTTP request. The backend checks the user_id is valid before returning a 200 OK response and no additional calls are required. 
 
 An authorisation method is stateful when it stores unique information about the session in the backend using a DB table or Cache. This can include the user id, session id, user permissions, ip address, devise type, time of last request etc. The backend must fetch the session data for every request before returning a 200 OK response.
+
+
+### Actions
+| Action  | File |
+| ------------- | ------------- |
+| Create session on signs up  | app/controllers/users_controller.rb  |
+| Create/destory session on sign in/sign out  | app/controllers/sessions_controller.rb  |
+| Authenticate user on sign in  | app/models/user.rb  |
+| Protect resources using current_user | app/controllers/application_controller.rb  |
+
 
 
 ## CSRF protection
@@ -163,14 +163,43 @@ Rails for Beginners Part 22: Password Reset Update [GoRails](https://www.youtube
 
 
 ## Sending emails
-ActionMailer is used to send emails when a user signs up or resets their password. <br>
+ActionMailer is used to send emails. 
+Emails are sent when a user signs up or resets their password. <br>
+This project sends emails from a test gmail account. <br>
+Settings can be found in `config/environments/development.rb` <br>
+
+Note: a password has been created for third party access to the test gmail account and stored in .env file.
+
+  ```
+  config.action_mailer.default_url_options = {
+    host: 'localhost:3000',
+    protocol: 'http'
+  }
+  config.action_mailer.smtp_settings = {
+    address: 'smtp.gmail.com',
+    port: 587,
+    user_name: 'myrailsmail@gmail.com',
+    password: ENV['GOOGLE_APP_PASSWORD'],
+    authentication: 'plain',
+    enable_starttls_auto: true
+  }
+  ```
+
+Emails work much the same as controllers and views. 
+
+Default settings
+`app/mailers/application_mailer.rb`
+
+Base email template
+`app/views/layouts/mailer.html.erb`
+
+Spesific email templates
+`app/views/user_mailer/...`
 
 
 Implementing Action Mailer [medium](https://medium.com/nerd-for-tech/implementing-action-mailer-ruby-on-rails-1766f59c6f)
 
-Give third party apps access...
-Custom settings 
-config/environments/development.rb
+
 
 
 ## Routing 
