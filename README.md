@@ -258,6 +258,6 @@ TODO
 - [ ] Check if the session controller should be singular 
 - [ ] Clean up reset password error response 
 - [ ] Add secion on "has_secure_password doesn't wrap password"
- 
+- [ ] add httpOnly section [httpOnly]https://owasp.org/www-community/HttpOnly
 
 
