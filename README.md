@@ -82,6 +82,7 @@ The client then sends the session cookie to the backend with every subsequent re
 The backend opens the session cookie and checks for a user_id; if present, the user is signed in. <br>
 When the user signs out, the user_id is deleted from the session cookie. 
 
+How Rails sessions work [justinweiss](https://www.justinweiss.com/articles/how-rails-sessions-work/)
   
 ### How are session cookies secured? 
 When Rails creates a session cookie it encrypts it using its secret_key_base <br>
@@ -163,10 +164,8 @@ Rails for Beginners Part 22: Password Reset Update [GoRails](https://www.youtube
 
 
 ## Sending emails
-ActionMailer is used to send emails. 
-Emails are sent when a user signs up or resets their password. <br>
-This project sends emails from a test gmail account. <br>
-Settings can be found in `config/environments/development.rb` <br>
+ActionMailer is used to send emails from a test gmail account when a user signs up or resets their password. <br>
+Settings can be found in `config/environments/development.rb` 
 
 Note: a password has been created for third party access to the test gmail account and stored in .env file.
 
@@ -204,7 +203,7 @@ Implementing Action Mailer [medium](https://medium.com/nerd-for-tech/implementin
 
 ## Routing 
 ### Namespacing the API routes <br>
-I decided not to namespace the API routes because all routes are APIs, so we dont need to diferenciate, and this template has no need version the APIs at this stage. 
+I decided not to namespace the routes because all routes are APIs, so we dont need to diferenciate, and this template has no need versioning.
 
 ### Route formatting
 routes are wrapped with `format: :json` <br>
@@ -212,36 +211,51 @@ This means the router expects all incoming requiests to be for JSON resources an
 
 Note: If we wanted to use other formats like XML, we would need to move this logic to the ActionController and create a before action to check the format of incoming requests
 
-Respond_to Without All the Pain [justinweiss](https://www.justinweiss.com/articles/respond-to-without-all-the-pain/)
-
-
 ### singular resources 
 The password route and controller is singular 
 The session route is singular but the controller is plural
 
-**needs more research
+Singluar resources dont use IDs
+>We can see singular resource routes don’t have ID of the resource. Moreover, it still directs requests to pluralized controller name.
 
-https://www.rubyinrails.com/2019/04/16/rails-routes-difference-between-resource-and-resources/
-
-
-### Params Wrapper
-https://medium.com/ruby-daily/params-wrapper-in-ruby-on-rails-30e7921f7704
+difference between singular and plural resources [blog](https://www.rubyinrails.com/2019/04/16/rails-routes-difference-between-resource-and-resources/)
 
 
- ### HTTP request 
+### Controller response formatting
+Controller actions can respond differently depending on the request format such as JSON, XML, TXT etc
+Respond_to Without All the Pain [justinweiss](https://www.justinweiss.com/articles/respond-to-without-all-the-pain/
+
+
+ ### Params
 Session and event objects get their name from the controller the HTTP body is sent to.
 ```
 Parameters: {"username"=>"orange", "*event*"=>{"username"=>"orange"}}
 Parameters {"username"=>"orange", "format"=>:json, "controller"=>"sessions", "action"=>"create", "*session*"=>{"username"=>"orange"}} permitted: false>
 ```
+Params Wrapper in Ruby on Rails Explained [medium](https://medium.com/ruby-daily/params-wrapper-in-ruby-on-rails-30e7921f7704)
 
- ### ENV File
+
+
+### ENV File & Gitignore
+A .env file has been added to the project rout for storing sensitive info such as the 3rd party app password for sending emails. 
+
 Using dotenv gem <br>
 Note: .env file must be located in the root directory <br>
 
 Gem documentation [Dotenv](https://github.com/bkeepers/dotenv)
 
 Setting up .env files [using Dotenv-Rails gem](https://www.youtube.com/watch?v=Re0OYhw0GUY&ab_channel=ArachneTutorials)
+
+#### Gitignore 
+Create file in project rout `touch .gitignore`
+Add env file to ignore it 
+```
+#ignore env files
+.env*
+```
+
+TODO
+[] - Check if the session controller should be singular 
 
 
 
