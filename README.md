@@ -10,7 +10,7 @@ This Rails 7 API-only app is intended as a template to kick-start projects.
 
 The app includes...
 
-- stateless session authorisation 
+- stateless session authentication 
 - CSRF protection
 - REST endpoints for 
 - - sign up 
@@ -31,7 +31,7 @@ The app includes...
 
 ## Middleware 
 
-Session management middleware is excluded from API apps by default and must be included to make use of sessions and cookies for authorisation.
+Session management middleware is excluded from API apps by default and must be included to make use of sessions and cookies for authentication.
 The following settings have been added to  `config/application.rb`
 
 ```
@@ -53,7 +53,7 @@ Documentation link [rubyonrails.org](https://guides.rubyonrails.org/api_app.html
 Allows web applications to make cross-domain AJAX calls.<br> 
 I.e. separately hosted frontend and backend applications are "allowed" to communicate. 
 
-This project uses the Rack CORS gem which creates the `config/initializers/cors.rb` file .
+This project uses the Rack CORS gem, which creates the `config/initializers/cors.rb` file .
 
 Note: `forgery_protection_origin_check = false` is set to false
 
@@ -65,7 +65,7 @@ Mozilla web security [same-origin policy](https://developer.mozilla.org/en-US/do
 ## bcrypt
 Used to hash and store passwords securely.<br>
 Note: the `User.my_password == "my password"` method only works within a session where the password has been set. <br>
-It cannot be used to check passwords adhock. <br> 
+It cannot be used to check passwords ad-hock. <br> 
 
 Gem documentation [bcrypt-ruby](https://github.com/bcrypt-ruby/bcrypt-ruby)
 
@@ -76,8 +76,8 @@ Tutorial: Setting up bycrypt [medium](https://medium.com/@tpstar/password-digest
 
 ### How it works
 
-When a user signs up or signs in, the backend creates a session containing the user_id and passes it to the client (users browser) as a cookie. 
-The client then sends the session cookie to the backend with every subsequent requet. <br>
+When a user signs up or signs in, the backend creates a session containing the user_id and passes it to the client (user's browser) as a cookie. 
+The client then sends the session cookie to the backend with every subsequent request. <br>
 
 The backend opens the session cookie and checks for a user_id; if present, the user is signed in. <br>
 When the user signs out, the user_id is deleted from the session cookie. 
@@ -85,7 +85,7 @@ When the user signs out, the user_id is deleted from the session cookie.
 How Rails sessions work [justinweiss](https://www.justinweiss.com/articles/how-rails-sessions-work/)
   
 ### How are session cookies secured? 
-When Rails creates a session cookie it encrypts it using its secret_key_base <br>
+When Rails creates a session cookie, it encrypts it using its secret_key_base <br>
 The data held is inaccessible without first decrypting the cookie. 
 
 >The cookie data is cryptographically signed to make it tamper-proof. And it is also encrypted so anyone with access to it can't read its contents. (Rails will not accept it if it has been edited).
@@ -99,9 +99,9 @@ Rails documentation [secret key base](https://apidock.com/rails/Rails/Applicatio
 ### State
 This implementation of session authentication is stateless
 
-An authorisation method is stateless when unique session information, such as a user_id, is stored in a cookie or token and sent with every HTTP request. The backend checks the user_id is valid before returning a 200 OK response and no additional calls are required. 
+An authentication method is stateless when unique session information, such as a user_id, is stored in a cookie or token and sent with every HTTP request. The backend checks the user_id is valid before returning a 200 OK response and no additional calls are required. 
 
-An authorisation method is stateful when it stores unique information about the session in the backend using a DB table or Cache. This can include the user id, session id, user permissions, ip address, devise type, time of last request etc. The backend must fetch the session data for every request before returning a 200 OK response.
+An authentication method is stateful when it stores unique information about the session in the backend using a DB table or Cache. This can include the user id, session id, user permissions, ip address, devise type, time of last request etc. The backend must fetch the session data for every request before returning a 200 OK response.
 
 
 ### Actions
@@ -117,8 +117,8 @@ An authorisation method is stateful when it stores unique information about the 
 ## CSRF protection
 
 ### How it works
-CSRF protection works by placing a CSRF token in the client (users browser).  <br> 
-The client sends the token to the backend with every subsequent requet. <br>
+CSRF protection works by placing a CSRF token in the client (user's browser).  <br> 
+The client sends the token to the backend with every subsequent request. <br>
 The backend checks the token is valid before a request is processed. <br>
 
 Resources cannot be accessed without a CSRF token except for GET resources which are not protected. <br>
@@ -164,10 +164,10 @@ Rails for Beginners Part 22: Password Reset Update [GoRails](https://www.youtube
 
 
 ## Sending emails
-ActionMailer is used to send emails from a test gmail account when a user signs up or resets their password. <br>
+ActionMailer is used to send emails from a test Gmail account when a user signs up or resets their password. <br>
 Settings can be found in `config/environments/development.rb` 
 
-Note: a password has been created for third party access to the test gmail account and stored in .env file.
+Note: a password has been created for third-party access to the test Gmail account and stored in .env file.
 
   ```
   config.action_mailer.default_url_options = {
@@ -203,26 +203,26 @@ Implementing Action Mailer [medium](https://medium.com/nerd-for-tech/implementin
 
 ## Routing 
 ### Namespacing the API routes <br>
-I decided not to namespace the routes because all routes are APIs, so we dont need to diferenciate, and this template has no need versioning.
+I decided not to namespace the routes because all routes are APIs, so we don't need to differentiate, and this template has no need for versioning.
 
 ### Route formatting
-routes are wrapped with `format: :json` <br>
-This means the router expects all incoming requiests to be for JSON resources and we dont need to spesify the format type in our URL requests. I.E `http://[::1]:3000/events` not `http://[::1]:3000/events.json`
+Routes are wrapped with `format: :json` <br>
+This means the router expects all incoming requests to be for JSON resources, and we don't need to specify the format type in our URL requests. I.E `http://[::1]:3000/events` not `http://[::1]:3000/events.json`
 
-Note: If we wanted to use other formats like XML, we would need to move this logic to the ActionController and create a before action to check the format of incoming requests
+Note: If we wanted to use other formats like XML, we would need to move this logic to the ActionController and create a before action to check the format of incoming requests.
 
 ### singular resources 
-The password route and controller is singular 
-The session route is singular but the controller is plural
+The password route and controller are singular.
+The session route is singular, but the controller is plural.
 
-Singluar resources dont use IDs
+Singular resources don't use IDs
 >We can see singular resource routes don’t have ID of the resource. Moreover, it still directs requests to pluralized controller name.
 
 difference between singular and plural resources [blog](https://www.rubyinrails.com/2019/04/16/rails-routes-difference-between-resource-and-resources/)
 
 
 ### Controller response formatting
-Controller actions can respond differently depending on the request format such as JSON, XML, TXT etc
+Controller actions can respond differently depending on the request format, such as JSON, XML, TXT etc
 Respond_to Without All the Pain [justinweiss](https://www.justinweiss.com/articles/respond-to-without-all-the-pain/
 
 
@@ -237,7 +237,7 @@ Params Wrapper in Ruby on Rails Explained [medium](https://medium.com/ruby-daily
 
 
 ### ENV File & Gitignore
-A .env file has been added to the project rout for storing sensitive info such as the 3rd party app password for sending emails. 
+A .env file has been added to the project route for storing sensitive info such as the 3rd party app password for sending emails. 
 
 Using dotenv gem <br>
 Note: .env file must be located in the root directory <br>
@@ -247,7 +247,7 @@ Gem documentation [Dotenv](https://github.com/bkeepers/dotenv)
 Setting up .env files [using Dotenv-Rails gem](https://www.youtube.com/watch?v=Re0OYhw0GUY&ab_channel=ArachneTutorials)
 
 #### Gitignore 
-Create file in project rout `touch .gitignore`
+Create file in project route `touch .gitignore`
 Add env file to ignore it 
 ```
 #ignore env files
@@ -255,7 +255,9 @@ Add env file to ignore it
 ```
 
 TODO
-[] - Check if the session controller should be singular 
-
+- [ ] Check if the session controller should be singular 
+- [ ] Clean up reset password error response 
+- [ ] Add secion on "has_secure_password doesn't wrap password"
+ 
 
 
