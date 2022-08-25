@@ -125,6 +125,8 @@ Resources cannot be accessed without a CSRF token except for GET resources which
 
 When CSRF is enabled, use the events/index GET resource to collect a token. 
 
+> Briefly, Cross-Site Request Forgery (CSRF) is an attack that allows a malicious user to spoof legitimate requests to your server, masquerading as an authenticated user. Rails protects against this kind of attack by generating unique tokens and validating their authenticity with each submission
+
 ### Enable/disable CSRF protection
 - Comment out `protect_from_forgery with: :exception` in `app/controllers/application_controller.rb` to disable CSRF protection
 
