@@ -297,5 +297,6 @@ TODO
 - [ ] add httpOnly section [httpOnly]https://owasp.org/www-community/HttpOnly
 - [ ] does scripting adapter technique break httpOnly?
 - [ ] localStorage
+- [ ] x-csrf token is visit in fishub network request (screenshot), set up jobs-board example
 
 
