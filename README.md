@@ -116,16 +116,41 @@ An authentication method is stateful when it stores unique information about the
 
 ## CSRF protection
 
-### How it works
-CSRF protection works by placing a CSRF token in the client (user's browser).  <br> 
-The client sends the token to the backend with every subsequent request. <br>
-The backend checks the token is valid before a request is processed. <br>
 
-Resources cannot be accessed without a CSRF token except for GET resources which are not protected. <br>
-
-When CSRF is enabled, use the events/index GET resource to collect a token. 
-
+### What is a CSRF attack 
 > Briefly, Cross-Site Request Forgery (CSRF) is an attack that allows a malicious user to spoof legitimate requests to your server, masquerading as an authenticated user. Rails protects against this kind of attack by generating unique tokens and validating their authenticity with each submission
+
+### How does it work
+Rails uses a scripting adapter to implement the "Cookie-to-header" technique by placing a CSRF token in the client as a cookie and saving a duplicate in a custom HTTP header.
+  
+ > By default, Rails includes an unobtrusive scripting adapter, which adds a header called X-CSRF-Token with the security token on every non-GET Ajax call
+The custom HTTP header looks like `X-Csrf-Token: i8XNjC4b8KVok4uw5RftR38Wgp2BFwql`. 
+  
+Rails docs [csrf countermeasures](https://guides.rubyonrails.org/security.html#csrf-countermeasures)
+
+When the client makes a legitimate request, it passes all the cookies it has, plus the custom HTTP header. The backend compares both tokens and autherrises the request if they match. If they dont match, the backend kills the session. 
+
+Rails uses the `verified_request?()` method in the `ActionController::RequestForgeryProtection` module to compare the HTTP header with the CSRF token.<br>
+```
+verified_request?()Link
+Returns true or false if a request is verified. Checks:
+- Is it a GET or HEAD request? GETs should be safe and idempotent
+- Does the form_authenticity_token match the given token value from the params?
+- Does the X-CSRF-Token header match the form_authenticity_token?
+```
+Rails API docs [RequestForgeryProtection](https://api.rubyonrails.org/classes/ActionController/RequestForgeryProtection.html#method-i-verified_request-3F)
+
+  
+The "Cookie-to-header" method is secure because although all cookies in a client are sent with each and every request, the custom headers are private and cannot be sent with a malicius attack. 
+  
+ > Security of this technique is based on the assumption that only JavaScript running on the client side of an HTTPS connection to the server that initially set the cookie will be able to read the cookie's value. JavaScript running from a rogue file or email should not be able to successfully read the cookie value to copy into the custom header. Even though the csrf-token cookie will be automatically sent with the rogue request, the server will still expect a valid X-Csrf-Token header.
+  
+ Wikipedia [cross-site request forgery](https://en.wikipedia.org/wiki/Cross-site_request_forgery#Cookie-to-header_token)
+  
+This goes against the idea that `httpOnly` CSRF tokens cannot be read by JS, but we trust this method is secure becasue its baken into rails. 
+
+Note: Resources cannot be accessed without a CSRF token except for GET resources which are not protected. <br>
+When CSRF is enabled, use the events/index GET resource to collect a token. 
 
 ### Enable/disable CSRF protection
 - Comment out `protect_from_forgery with: :exception` in `app/controllers/application_controller.rb` to disable CSRF protection
