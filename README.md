@@ -118,9 +118,11 @@ An authentication method is stateful when it stores unique information about the
 
 
 ### What is a CSRF attack 
-> Briefly, Cross-Site Request Forgery (CSRF) is an attack that allows a malicious user to spoof legitimate requests to your server, masquerading as an authenticated user. Rails protects against this kind of attack by generating unique tokens and validating their authenticity with each submission
-
+> Briefly, Cross-Site Request Forgery (CSRF) is an attack that allows a malicious user to spoof legitimate requests to your server, masquerading as an authenticated user. Rails protects against this kind of attack by generating unique tokens and validating their authenticity with each submission  
+  
 CSRF attacks work because clients, by design, send all the cookies they have available with every request, regardless of the resources.
+  
+A Deep Dive into CSRF Protection in Rails [medium](https://medium.com/rubyinside/a-deep-dive-into-csrf-protection-in-rails-19fa0a42c0ef#:~:text=Briefly%2C%20Cross%2DSite%20Request%20Forgery,their%20authenticity%20with%20each%20submission)
   
 ### How does CSRF protection in Rails work
 Rails uses a scripting adapter to implement the "Cookie-to-header" technique by placing a CSRF token in the client as a cookie and saving a duplicate in a custom HTTP header.
@@ -143,7 +145,7 @@ Returns true or false if a request is verified. Checks:
 Rails API docs [RequestForgeryProtection](https://api.rubyonrails.org/classes/ActionController/RequestForgeryProtection.html#method-i-verified_request-3F)
 
   
-The "Cookie-to-header" method is secure because although all cookies in a client are sent with each and every request, the custom headers are private and cannot be sent with a malicius attack. 
+The "Cookie-to-header" method is secure because although a clients cookies are automaticly sent with each request, the custom headers are not and their data is private so it cannot be coppied or sent with a malicius attack. 
   
  > Security of this technique is based on the assumption that only JavaScript running on the client side of an HTTPS connection to the server that initially set the cookie will be able to read the cookie's value. JavaScript running from a rogue file or email should not be able to successfully read the cookie value to copy into the custom header. Even though the csrf-token cookie will be automatically sent with the rogue request, the server will still expect a valid X-Csrf-Token header.
   
@@ -160,8 +162,6 @@ When CSRF is enabled, use the events/index GET resource to collect a token.
 Pragmatic Studio [rails session cookies & CSRF for API applications](https://pragmaticstudio.com/tutorials/rails-session-cookies-for-api-authentication)
   
 nvisium blog [understanding protect_from_forgery](https://blog.nvisium.com/understanding-protectfromforgery)
-
-A Deep Dive into CSRF Protection in Rails [medium](https://medium.com/rubyinside/a-deep-dive-into-csrf-protection-in-rails-19fa0a42c0ef#:~:text=Briefly%2C%20Cross%2DSite%20Request%20Forgery,their%20authenticity%20with%20each%20submission)
 
 Understanding Rails' Forgery Protection Strategies [blog](https://marcgg.com/blog/2016/08/22/csrf-rails/)
 
