@@ -120,7 +120,9 @@ An authentication method is stateful when it stores unique information about the
 ### What is a CSRF attack 
 > Briefly, Cross-Site Request Forgery (CSRF) is an attack that allows a malicious user to spoof legitimate requests to your server, masquerading as an authenticated user. Rails protects against this kind of attack by generating unique tokens and validating their authenticity with each submission
 
-### How does it work
+CSRF attacks work because clients, by design, send all the cookies they have available with every request, regardless of the resources.
+  
+### How does CSRF protection in Rails work
 Rails uses a scripting adapter to implement the "Cookie-to-header" technique by placing a CSRF token in the client as a cookie and saving a duplicate in a custom HTTP header.
   
  > By default, Rails includes an unobtrusive scripting adapter, which adds a header called X-CSRF-Token with the security token on every non-GET Ajax call
@@ -128,7 +130,7 @@ The custom HTTP header looks like `X-Csrf-Token: i8XNjC4b8KVok4uw5RftR38Wgp2BFwq
   
 Rails docs [csrf countermeasures](https://guides.rubyonrails.org/security.html#csrf-countermeasures)
 
-When the client makes a legitimate request, it passes all the cookies it has, plus the custom HTTP header. The backend compares both tokens and autherrises the request if they match. If they dont match, the backend kills the session. 
+When the client makes a legitimate request, it passes the cookies, plus the custom HTTP header. The backend compares both tokens and autherrises the request if they match. If they dont match, the backend kills the session. 
 
 Rails uses the `verified_request?()` method in the `ActionController::RequestForgeryProtection` module to compare the HTTP header with the CSRF token.<br>
 ```
@@ -155,10 +157,17 @@ When CSRF is enabled, use the events/index GET resource to collect a token.
 ### Enable/disable CSRF protection
 - Comment out `protect_from_forgery with: :exception` in `app/controllers/application_controller.rb` to disable CSRF protection
 
+Pragmatic Studio [rails session cookies & CSRF for API applications](https://pragmaticstudio.com/tutorials/rails-session-cookies-for-api-authentication)
+  
+nvisium blog [understanding protect_from_forgery](https://blog.nvisium.com/understanding-protectfromforgery)
+
 A Deep Dive into CSRF Protection in Rails [medium](https://medium.com/rubyinside/a-deep-dive-into-csrf-protection-in-rails-19fa0a42c0ef#:~:text=Briefly%2C%20Cross%2DSite%20Request%20Forgery,their%20authenticity%20with%20each%20submission)
 
 Understanding Rails' Forgery Protection Strategies [blog](https://marcgg.com/blog/2016/08/22/csrf-rails/)
 
+Prevent Cross-Site Request Forgery (CSRF) Attacks [includes example project](https://auth0.com/blog/cross-site-request-forgery-csrf/)
+  
+  Basics of Cross Site Request Forgery (CSRF), and ways to prevent it in NodeJs and Ruby on Rails [blog](https://blog.geogo.in/cross-site-request-forgery-csrf-in-nodejs-and-ruby-on-rails-7e2004af292c)
 
 
 ## Password reset
@@ -286,5 +295,6 @@ TODO
 - [ ] Clean up reset password error response 
 - [ ] Add secion on "has_secure_password doesn't wrap password"
 - [ ] add httpOnly section [httpOnly]https://owasp.org/www-community/HttpOnly
+- [ ] does scripting adapter technique break httpOnly?
 
 
