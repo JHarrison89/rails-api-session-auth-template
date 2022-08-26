@@ -296,5 +296,6 @@ TODO
 - [ ] Add secion on "has_secure_password doesn't wrap password"
 - [ ] add httpOnly section [httpOnly]https://owasp.org/www-community/HttpOnly
 - [ ] does scripting adapter technique break httpOnly?
+- [ ] localStorage
 
 
