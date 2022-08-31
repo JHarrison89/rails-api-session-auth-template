@@ -53,7 +53,7 @@ Documentation link [rubyonrails.org](https://guides.rubyonrails.org/api_app.html
 Allows web applications to make cross-domain AJAX calls.<br> 
 I.e. separately hosted frontend and backend applications are "allowed" to communicate. 
 
-This project uses the Rack CORS gem, which creates the `config/initializers/cors.rb` file .
+This project uses the Rack CORS gem, which creates the `config/initializers/cors.rb` file.
 
 Note: `forgery_protection_origin_check = false` is set to false
 
@@ -64,8 +64,7 @@ Mozilla web security [same-origin policy](https://developer.mozilla.org/en-US/do
 
 ## bcrypt
 Used to hash and store passwords securely.<br>
-Note: the `User.my_password == "my password"` method only works within a session where the password has been set. <br>
-It cannot be used to check passwords ad-hock. <br> 
+Note: the `User.my_password == "my password"` method only works within a session where the password has been set and cannot be used to check passwords ad-hock. <br> 
 
 Gem documentation [bcrypt-ruby](https://github.com/bcrypt-ruby/bcrypt-ruby)
 
@@ -85,9 +84,7 @@ When the user signs out, the user_id is deleted from the session cookie.
 How Rails sessions work [justinweiss](https://www.justinweiss.com/articles/how-rails-sessions-work/)
   
 ### How are session cookies secured? 
-When Rails creates a session cookie, it encrypts it using its secret_key_base <br>
-The data held is inaccessible without first decrypting the cookie. 
-
+When Rails creates a session cookie, it encrypts the entire cookie using its secret_key_base. The cookie must be decrypted to access the 
 >The cookie data is cryptographically signed to make it tamper-proof. And it is also encrypted so anyone with access to it can't read its contents. (Rails will not accept it if it has been edited).
 
 
@@ -99,9 +96,11 @@ Rails documentation [secret key base](https://apidock.com/rails/Rails/Applicatio
 ### State
 This implementation of session authentication is stateless
 
-An authentication method is stateless when unique session information, such as a user_id, is stored in a cookie or token and sent with every HTTP request. The backend checks the user_id is valid before returning a 200 OK response and no additional calls are required. 
+An authentication method is stateless when it does not store session information in the backend. This implementation of session authentication works by placing the user_id in the session cookie and validating it with each request; if valid, the user is treated as signed in. 
 
-An authentication method is stateful when it stores unique information about the session in the backend using a DB table or Cache. This can include the user id, session id, user permissions, ip address, devise type, time of last request etc. The backend must fetch the session data for every request before returning a 200 OK response.
+An authentication method is stateful when it does store information about the session in the backend using a DB table or Cache. The session cookie holds the session ID (instead of a user ID), which is used to fetch and update records when necessary, and often requires more calls than stateless authentication. The pros of stateful include capturing a range of user data; cons include storing and clearing data and an increase in backend requests.
+
+Stateful authentication stores data such as user id, session id, user permissions, ip address, devise type, time of last request etc.
 
 
 ### Actions
