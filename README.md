@@ -297,5 +297,6 @@ TODO
 - [ ] does scripting adapter technique break httpOnly?
 - [ ] localStorage
 - [ ] x-csrf token is visit in fishub network request (screenshot), set up jobs-board example
+- [ ] blog, session authenticaion vs JWT token
 
 
