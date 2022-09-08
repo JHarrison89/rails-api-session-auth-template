@@ -3,7 +3,7 @@
   <a href="https://rubyonrails.org/"><img width="300" src="https://zakaria.dev/assets/images/rails_base_app/Ruby_On_Rails_Logo.png" alt="Ruby On Rails"></a>
 
 # Rails API session auth template
-This Rails 7 API-only app is intended as a template to kick-start SPA projects using Rails as the server and a serpate application as the front-end such as Vue, React etc.
+This Rails 7 API-only app is intended as a template to kick-start SPA projects using Rails as the server and a separate application as the front-end, such as Vue, React etc.
 
 [![](https://badgen.net/badge/Rails/7.0.3.1/red)](https://github.com/JHarrison89/rails-api-session-auth-template/blob/main/Gemfile.lock)
 [![](https://badgen.net/badge/Ruby/3.0.0/orange)](https://github.com/JHarrison89/rails-api-session-auth-template/blob/main/Gemfile.lock)
@@ -78,7 +78,7 @@ Note: the `User.my_password == "my password"` method only works within a session
 When a user signs up or signs in, the backend creates a session containing the user_id and passes it to the client (user's browser) as a cookie. 
 The client then sends the session cookie to the backend with every subsequent request. <br>
 
-The backend opens the session cookie and checks for a user_id; if present, the user is signed in. <br>
+The backend opens the session cookie and checks for a user_id; if present, the user is considered signed in. <br>
 When the user signs out, the user_id is deleted from the session cookie. 
 
 - How Rails sessions work [justinweiss](https://www.justinweiss.com/articles/how-rails-sessions-work/)
@@ -96,7 +96,7 @@ When Rails creates a session cookie, it encrypts the entire cookie using its sec
 ### State
 This implementation of session authentication is stateless
 
-An authentication method is stateless when it does not store session information in the backend. This implementation of session authentication works by placing the user_id in the session cookie and validating it with each request; if valid, the user is treated as signed in. 
+An authentication method is stateless when it does not store session information in the backend. This implementation of session authentication works by placing the user_id in the session cookie and validating it with each request; if valid, the user is considered signed in. 
 
 An authentication method is stateful when it does store information about the session in the backend using a DB table or Cache. The session cookie holds the session ID (instead of a user ID), which is used to fetch and update records when necessary, and often requires more calls than stateless authentication. The pros of stateful authentication include capturing a range of user data; cons include storing and clearing data and an increase in backend requests.
 
@@ -117,14 +117,14 @@ Stateful authentication stores data such as user id, session id, user permission
 
 
 ### What is a CSRF attack 
-> Briefly, Cross-Site Request Forgery (CSRF) is an attack that allows a malicious user to spoof legitimate requests to your server, masquerading as an authenticated user. Rails protects against this kind of attack by generating unique tokens and validating their authenticity with each submission  
+> Briefly, Cross-Site Request Forgery (CSRF) is an attack that allows a malicious user to spoof legitimate requests to your server, masquerading as an authenticated user. Rails protects against this kind of attack by generating unique tokens and validating their authenticity with each submission. 
  
 CSRF is an extensive subject, so I have written a blog explaining how Rails protects itself from CSRF attacks, including a step-by-step walkthrough and a section on Cookie security such as Secure attribute, HttpOnly and SameSite attribute. Please refer to this blog post for more details.
 
 - How Cross-Site Request Forgery (CSRF)Attack Prevention Works in Rails [blog](https://medium.com/@jeremaia.harrison/how-cross-site-request-forgery-csrf-attack-prevention-works-in-rails-7be4176cf170)
 
 ### CSRF protection in this project
-This Rails 7 API-only app is intended as a template to kick-start SPA projects using Rails as the server and a serpate application as the front-end such as Vue, React etc. As such, CSRF protection has been included but disabled. When a front-end, such as Vue, has been setup, CSRF protection can be enabled.
+This Rails 7 API-only app is intended as a template to kick-start SPA projects using Rails as the server and a separate application as the front-end, such as Vue, React etc. As such, CSRF protection has been included but disabled. When a front-end, such as Vue, has been set up, CSRF protection can be enabled.
 
 The following link explains how CSRF protection is intended to work in this project.<br>
 - Pragmatic Studio [rails session cookies & CSRF for API applications](https://pragmaticstudio.com/tutorials/rails-session-cookies-for-api-authentication)
@@ -196,7 +196,7 @@ Default settings
 Base email template
 `app/views/layouts/mailer.html.erb`
 
-Spesific email templates
+Specific email templates
 `app/views/user_mailer/...`
 
 
@@ -220,7 +220,7 @@ The password route and controller are singular.
 The session route is singular, but the controller is plural.
 
 Singular resources don't use IDs
->We can see singular resource routes don’t have ID of the resource. Moreover, it still directs requests to pluralized controller name.
+>We can see singular resource routes don’t have ID of the resource. Moreover, it still directs requests to pluralized controller names.
 
 difference between singular and plural resources [blog](https://www.rubyinrails.com/2019/04/16/rails-routes-difference-between-resource-and-resources/)
 
@@ -241,7 +241,7 @@ Params Wrapper in Ruby on Rails Explained [medium](https://medium.com/ruby-daily
 
 
 ### ENV File & Gitignore
-A .env file has been added to the project route for storing sensitive info such as the 3rd party app password for sending emails. 
+A .env file has been added to the project route for storing sensitive info, such as the 3rd party app password for sending emails. 
 
 Using dotenv gem <br>
 Note: .env file must be located in the root directory <br>
