@@ -3,7 +3,7 @@
   <a href="https://rubyonrails.org/"><img width="300" src="https://zakaria.dev/assets/images/rails_base_app/Ruby_On_Rails_Logo.png" alt="Ruby On Rails"></a>
 
 # Rails API session auth template
-This Rails 7 API-only app is intended as a template to kick-start projects.
+This Rails 7 API-only app is intended as a template to kick-start SPA projects using Rails as the server and a serpate application as the front-end such as Vue, React etc.
 
 [![](https://badgen.net/badge/Rails/7.0.3.1/red)](https://github.com/JHarrison89/rails-api-session-auth-template/blob/main/Gemfile.lock)
 [![](https://badgen.net/badge/Ruby/3.0.0/orange)](https://github.com/JHarrison89/rails-api-session-auth-template/blob/main/Gemfile.lock)
@@ -31,7 +31,7 @@ The app includes...
 
 ## Middleware 
 
-Session management middleware is excluded from API apps by default and must be included to make use of sessions and cookies for authentication.
+Session management middleware is excluded from API apps by default and must be included to make use of sessions and cookies for authentication and CSRF protection.
 The following settings have been added to  `config/application.rb`
 
 ```
@@ -46,7 +46,7 @@ and called by adding the following to `app/controllers/application_controller.rb
   include ActionController::RequestForgeryProtection
 ```
 
-Documentation link [rubyonrails.org](https://guides.rubyonrails.org/api_app.html#using-session-middlewares)
+- Documentation link [rubyonrails.org](https://guides.rubyonrails.org/api_app.html#using-session-middlewares)
 
 
 ## CORS
@@ -57,18 +57,18 @@ This project uses the Rack CORS gem, which creates the `config/initializers/cors
 
 Note: `forgery_protection_origin_check = false` is set to false
 
-Gem documentation [rack-cors](https://github.com/cyu/rack-cors)
+- Gem documentation [rack-cors](https://github.com/cyu/rack-cors)
 
-Mozilla web security [same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)
+- Mozilla web security [same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)
 
 
 ## bcrypt
 Used to hash and store passwords securely.<br>
 Note: the `User.my_password == "my password"` method only works within a session where the password has been set and cannot be used to check passwords ad-hock. <br> 
 
-Gem documentation [bcrypt-ruby](https://github.com/bcrypt-ruby/bcrypt-ruby)
+- Gem documentation [bcrypt-ruby](https://github.com/bcrypt-ruby/bcrypt-ruby)
 
-Tutorial: Setting up bycrypt [medium](https://medium.com/@tpstar/password-digest-column-in-user-migration-table-871ff9120a5)
+- Tutorial: Setting up bycrypt [medium](https://medium.com/@tpstar/password-digest-column-in-user-migration-table-871ff9120a5)
 
 
 ## Session Authentication 
@@ -81,16 +81,16 @@ The client then sends the session cookie to the backend with every subsequent re
 The backend opens the session cookie and checks for a user_id; if present, the user is signed in. <br>
 When the user signs out, the user_id is deleted from the session cookie. 
 
-How Rails sessions work [justinweiss](https://www.justinweiss.com/articles/how-rails-sessions-work/)
+- How Rails sessions work [justinweiss](https://www.justinweiss.com/articles/how-rails-sessions-work/)
   
 ### How are session cookies secured? 
-When Rails creates a session cookie, it encrypts the entire cookie using its secret_key_base. The cookie must be decrypted to access the 
+When Rails creates a session cookie, it encrypts the entire cookie using its secret_key_base and must be decrypted to access its content.
 >The cookie data is cryptographically signed to make it tamper-proof. And it is also encrypted so anyone with access to it can't read its contents. (Rails will not accept it if it has been edited).
 
 
-Rails documentation [sessions](https://guides.rubyonrails.org/action_controller_overview.html#session)
+- Rails documentation [sessions](https://guides.rubyonrails.org/action_controller_overview.html#session)
 
-Rails documentation [secret key base](https://apidock.com/rails/Rails/Application/secret_key_base)
+- Rails documentation [secret key base](https://apidock.com/rails/Rails/Application/secret_key_base)
 
 
 ### State
@@ -98,7 +98,7 @@ This implementation of session authentication is stateless
 
 An authentication method is stateless when it does not store session information in the backend. This implementation of session authentication works by placing the user_id in the session cookie and validating it with each request; if valid, the user is treated as signed in. 
 
-An authentication method is stateful when it does store information about the session in the backend using a DB table or Cache. The session cookie holds the session ID (instead of a user ID), which is used to fetch and update records when necessary, and often requires more calls than stateless authentication. The pros of stateful include capturing a range of user data; cons include storing and clearing data and an increase in backend requests.
+An authentication method is stateful when it does store information about the session in the backend using a DB table or Cache. The session cookie holds the session ID (instead of a user ID), which is used to fetch and update records when necessary, and often requires more calls than stateless authentication. The pros of stateful authentication include capturing a range of user data; cons include storing and clearing data and an increase in backend requests.
 
 Stateful authentication stores data such as user id, session id, user permissions, ip address, devise type, time of last request etc.
 
@@ -118,55 +118,24 @@ Stateful authentication stores data such as user id, session id, user permission
 
 ### What is a CSRF attack 
 > Briefly, Cross-Site Request Forgery (CSRF) is an attack that allows a malicious user to spoof legitimate requests to your server, masquerading as an authenticated user. Rails protects against this kind of attack by generating unique tokens and validating their authenticity with each submission  
-  
-CSRF attacks work because clients, by design, send all the cookies they have available with every request, regardless of the resources.
-  
-A Deep Dive into CSRF Protection in Rails [medium](https://medium.com/rubyinside/a-deep-dive-into-csrf-protection-in-rails-19fa0a42c0ef#:~:text=Briefly%2C%20Cross%2DSite%20Request%20Forgery,their%20authenticity%20with%20each%20submission)
-  
-### How does CSRF protection in Rails work
-Rails uses a scripting adapter to implement the "Cookie-to-header" technique by placing a CSRF token in the client as a cookie and saving a duplicate in a custom HTTP header.
-  
- > By default, Rails includes an unobtrusive scripting adapter, which adds a header called X-CSRF-Token with the security token on every non-GET Ajax call
-The custom HTTP header looks like `X-Csrf-Token: i8XNjC4b8KVok4uw5RftR38Wgp2BFwql`. 
-  
-Rails docs [csrf countermeasures](https://guides.rubyonrails.org/security.html#csrf-countermeasures)
+ 
+CSRF is an extensive subject, so I have written a blog explaining how Rails protects itself from CSRF attacks, including a step-by-step walkthrough and a section on Cookie security such as Secure attribute, HttpOnly and SameSite attribute. Please refer to this blog post for more details.
 
-When the client makes a legitimate request, it passes the cookies, plus the custom HTTP header. The backend compares both tokens and autherrises the request if they match. If they dont match, the backend kills the session. 
+- How Cross-Site Request Forgery (CSRF)Attack Prevention Works in Rails [blog](https://medium.com/@jeremaia.harrison/how-cross-site-request-forgery-csrf-attack-prevention-works-in-rails-7be4176cf170)
 
-Rails uses the `verified_request?()` method in the `ActionController::RequestForgeryProtection` module to compare the HTTP header with the CSRF token.<br>
-```
-verified_request?()Link
-Returns true or false if a request is verified. Checks:
-- Is it a GET or HEAD request? GETs should be safe and idempotent
-- Does the form_authenticity_token match the given token value from the params?
-- Does the X-CSRF-Token header match the form_authenticity_token?
-```
-Rails API docs [RequestForgeryProtection](https://api.rubyonrails.org/classes/ActionController/RequestForgeryProtection.html#method-i-verified_request-3F)
+### CSRF protection in this project
+This Rails 7 API-only app is intended as a template to kick-start SPA projects using Rails as the server and a serpate application as the front-end such as Vue, React etc. As such, CSRF protection has been included but disabled. When a front-end, such as Vue, has been setup, CSRF protection can be enabled.
 
-  
-The "Cookie-to-header" method is secure because although a clients cookies are automaticly sent with each request, the custom headers are not and their data is private so it cannot be coppied or sent with a malicius attack. 
-  
- > Security of this technique is based on the assumption that only JavaScript running on the client side of an HTTPS connection to the server that initially set the cookie will be able to read the cookie's value. JavaScript running from a rogue file or email should not be able to successfully read the cookie value to copy into the custom header. Even though the csrf-token cookie will be automatically sent with the rogue request, the server will still expect a valid X-Csrf-Token header.
-  
- Wikipedia [cross-site request forgery](https://en.wikipedia.org/wiki/Cross-site_request_forgery#Cookie-to-header_token)
-  
-This goes against the idea that `httpOnly` CSRF tokens cannot be read by JS, but we trust this method is secure becasue its baken into rails. 
+The following link explains how CSRF protection is intended to work in this project.<br>
+- Pragmatic Studio [rails session cookies & CSRF for API applications](https://pragmaticstudio.com/tutorials/rails-session-cookies-for-api-authentication)
+
+
+### Enable/disable CSRF protection
+- uncomment `protect_from_forgery with: :exception` in `app/controllers/application_controller.rb` to enable CSRF protection
+
 
 Note: Resources cannot be accessed without a CSRF token except for GET resources which are not protected. <br>
 When CSRF is enabled, use the events/index GET resource to collect a token. 
-
-### Enable/disable CSRF protection
-- Comment out `protect_from_forgery with: :exception` in `app/controllers/application_controller.rb` to disable CSRF protection
-
-Pragmatic Studio [rails session cookies & CSRF for API applications](https://pragmaticstudio.com/tutorials/rails-session-cookies-for-api-authentication)
-  
-nvisium blog [understanding protect_from_forgery](https://blog.nvisium.com/understanding-protectfromforgery)
-
-Understanding Rails' Forgery Protection Strategies [blog](https://marcgg.com/blog/2016/08/22/csrf-rails/)
-
-Prevent Cross-Site Request Forgery (CSRF) Attacks [includes example project](https://auth0.com/blog/cross-site-request-forgery-csrf/)
-  
-  Basics of Cross Site Request Forgery (CSRF), and ways to prevent it in NodeJs and Ruby on Rails [blog](https://blog.geogo.in/cross-site-request-forgery-csrf-in-nodejs-and-ruby-on-rails-7e2004af292c)
 
 
 ## Password reset
@@ -187,13 +156,13 @@ See the GoRails youtube links below for more info. <br>
 
 `user.signed_id(expires_in 15.minutes, purpose: “password_reset”)`
 
-Creating “Forgot password” feature on Rails API [medium](https://medium.com/binar-academy/forgot-password-feature-on-rails-api-8e4a7368c59)
+- Creating “Forgot password” feature on Rails API [medium](https://medium.com/binar-academy/forgot-password-feature-on-rails-api-8e4a7368c59)
 
-“Welcome email” for new user using Action Mailer [medium](https://pascales.medium.com/welcome-email-for-new-user-using-action-mailer-becdb43ee6a)
+- “Welcome email” for new user using Action Mailer [medium](https://pascales.medium.com/welcome-email-for-new-user-using-action-mailer-becdb43ee6a)
 
-Rails for Beginners Part 21: Reset Password Token Mailer [GoRails](https://www.youtube.com/watch?v=JMXGExhr0C4&ab_channel=GoRails)
+- Rails for Beginners Part 21: Reset Password Token Mailer [GoRails](https://www.youtube.com/watch?v=JMXGExhr0C4&ab_channel=GoRails)
 
-Rails for Beginners Part 22: Password Reset Update [GoRails](https://www.youtube.com/watch?v=kTB5z4NcrhM&ab_channel=GoRails)
+- Rails for Beginners Part 22: Password Reset Update [GoRails](https://www.youtube.com/watch?v=kTB5z4NcrhM&ab_channel=GoRails)
 
 
 
@@ -231,7 +200,7 @@ Spesific email templates
 `app/views/user_mailer/...`
 
 
-Implementing Action Mailer [medium](https://medium.com/nerd-for-tech/implementing-action-mailer-ruby-on-rails-1766f59c6f)
+- Implementing Action Mailer [medium](https://medium.com/nerd-for-tech/implementing-action-mailer-ruby-on-rails-1766f59c6f)
 
 
 
@@ -277,9 +246,9 @@ A .env file has been added to the project route for storing sensitive info such 
 Using dotenv gem <br>
 Note: .env file must be located in the root directory <br>
 
-Gem documentation [Dotenv](https://github.com/bkeepers/dotenv)
+- Gem documentation [Dotenv](https://github.com/bkeepers/dotenv)
 
-Setting up .env files [using Dotenv-Rails gem](https://www.youtube.com/watch?v=Re0OYhw0GUY&ab_channel=ArachneTutorials)
+- Setting up .env files [using Dotenv-Rails gem](https://www.youtube.com/watch?v=Re0OYhw0GUY&ab_channel=ArachneTutorials)
 
 #### Gitignore 
 Create file in project route `touch .gitignore`
@@ -293,10 +262,7 @@ TODO
 - [ ] Check if the session controller should be singular 
 - [ ] Clean up reset password error response 
 - [ ] Add secion on "has_secure_password doesn't wrap password"
-- [ ] add httpOnly section [httpOnly]https://owasp.org/www-community/HttpOnly
-- [ ] does scripting adapter technique break httpOnly?
 - [ ] localStorage
-- [ ] x-csrf token is visit in fishub network request (screenshot), set up jobs-board example
 - [ ] blog, session authenticaion vs JWT token
 
 
