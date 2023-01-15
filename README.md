@@ -52,6 +52,21 @@ and called by adding the following to `app/controllers/application_controller.rb
 ## CORS
 Allows web applications to make cross-domain AJAX calls.<br> 
 I.e. separately hosted frontend and backend applications are "allowed" to communicate. 
+Broswers use 
+  
+In the early years of the web, Same-Origin Policy was introduced to limit browsers so they could only load resources on the same origin. 
+
+SOP turned out to be too restrictive for the new age applications where we often need to fetch different kinds of resources from multiple origins, so CORS was introduced by all modern browsers to allow controlled access to resources outside the browser’s origin.
+
+The browser enforces the CORS protocol by including a CORS header (`origin-header: mywebsite.com`) when it sends a request to a cross-origin-server.
+
+When the server  responds to the browser, it uses Rack CORS Middleware to add an `access-control-allow-origin: mywebsite.com` header to its response. 
+
+If the values of the `origin-header` and `access-control-allow-origin` headers match, the browser will allow the response to be passed to the client; otherwise, the browser will block the response to protect the client.
+
+Note: Rack CORS Middleware, or any other server-side CORS system, is not designed to protect the server, only to add an `access-control-allow-origin` that the browser can use to make a decision.
+  
+  
 
 This project uses the Rack CORS gem, which creates the `config/initializers/cors.rb` file.
 
@@ -60,6 +75,10 @@ Note: `forgery_protection_origin_check = false` is set to false
 - Gem documentation [rack-cors](https://github.com/cyu/rack-cors)
 
 - Mozilla web security [same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)
+  
+- CORS in 100 Seconds [CORS in 100 Seconds] (https://www.youtube.com/watch?v=4KHiSt0oLJ0&ab_channel=Fireship)
+  
+- reflectoring.io [Complete Guide To CORS] (https://reflectoring.io/complete-guide-to-cors/#:~:text=The%20CORS%20protocol%20is%20enforced,header%20values%20in%20the%20response.)
 
 
 ## bcrypt
