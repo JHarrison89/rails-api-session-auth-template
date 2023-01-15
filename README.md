@@ -10,18 +10,18 @@ This Rails 7 API-only app is intended as a template to kick-start SPA projects u
 
 The app includes...
 
-- stateless session authentication 
+- Stateless session authentication 
 - CSRF protection
 - REST endpoints for 
-- - sign up 
+- - Sign up 
 - - sign in 
-- - sign out 
-- - forgot password 
-- - reset password 
-- - event (Dummy resource for demo purposes)
+- - Sign out 
+- - Forgot password 
+- - Reset password 
+- - Event (Dummy resource for demo purposes)
 - Action mail 
-- - sends a sign-up email 
-- - sends a password reset email
+- - Sends a sign-up email 
+- - Sends a password reset email
 
 
 ## Setup
